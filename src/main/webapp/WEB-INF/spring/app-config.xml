@@ -21,6 +21,9 @@
 		<constructor-arg>
 			<ref bean="owner" />
 		</constructor-arg>
+		<constructor-arg>
+			<ref bean="account" />
+		</constructor-arg>
 		<constructor-arg value="CREDIT" />
 		<constructor-arg value="100.00" />
 		<constructor-arg value="1000.00" />
@@ -95,6 +98,16 @@
 	
 	<bean id="commissionRenovate" class="es.unileon.ulebank.strategy.StrategyCommissionCreditEmission">
 		<constructor-arg value="0" />
+	</bean>
+	
+	<bean id="account" class="es.unileon.ulebank.account.Account">
+		<constructor-arg>
+			<ref bean="office" />
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="bank" />
+		</constructor-arg>
+		<constructor-arg value="0000000000" />
 	</bean>
 		
 	<bean id="messageSource"

@@ -15,7 +15,7 @@ public class CreditCard extends Card implements Serializable  {
 	private Client owner;
 	private static final long serialVersionUID = 1L;
 	
-    public CreditCard(Handler cardId, Client owner, CardType type, double buyLimitDiary,
+    public CreditCard(Handler cardId, Client owner, Account account, CardType type, double buyLimitDiary,
 			double buyLimitMonthly, double cashLimitDiary,
 			double cashLimitMonthly, StrategyCommission commissionEmission,
 			StrategyCommission commissionMaintenance,
@@ -24,6 +24,7 @@ public class CreditCard extends Card implements Serializable  {
 				cashLimitMonthly, commissionEmission, commissionMaintenance,
 				commissionRenovate);
 		this.owner = owner;
+		this.account = account;
 	}
     
     public String toString() {
