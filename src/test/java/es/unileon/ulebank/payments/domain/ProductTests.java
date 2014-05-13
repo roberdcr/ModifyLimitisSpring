@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.unileon.ulebank.payments.domain.*;
 import es.unileon.ulebank.Office;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.bank.Bank;
@@ -43,7 +44,7 @@ public class ProductTests {
 		StrategyCommission commissionEmission = new StrategyCommissionCreditEmission(25);
 		StrategyCommission commissionMaintenance = new StrategyCommissionCreditMaintenance(0);
 		StrategyCommission commissionRenovate = new StrategyCommissionCreditRenovate(0);
-		this.card = new CreditCard(handler, client, null, 0, 0, 0, 0, commissionRenovate, commissionRenovate, commissionRenovate);
+		//this.card = new CreditCard(handler, client, account, 0, 0, 0, 0, commissionRenovate, commissionRenovate, commissionRenovate);
     }
 
     @Test
