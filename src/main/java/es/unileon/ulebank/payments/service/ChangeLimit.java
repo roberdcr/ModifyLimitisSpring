@@ -16,21 +16,21 @@ public class ChangeLimit {
     @Min(300)
     private int monthlyLimit;
 
-    public void setDiaryLimit(int i) {
-        diaryLimit = i;
+    public void setDiaryLimit(double i) {
+        diaryLimit = (int) i;
         logger.info("Percentage set to " + i);
     }
 
-    public int getDiaryLimit() {
+    public double getDiaryLimit() {
         return diaryLimit;
     }
     
-    public void setMonthlyLimit(int i) {
-        monthlyLimit = i;
+    public void setMonthlyLimit(double i) {
+        monthlyLimit = (int) i;
         logger.info("Percentage set to " + i);
     }
 
-    public int getMonthlyLimit() {
+    public double getMonthlyLimit() {
         return monthlyLimit;
     }
 }

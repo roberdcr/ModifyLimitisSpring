@@ -47,8 +47,8 @@ public class ChangeCashLimitsFormController {
     @RequestMapping(method = RequestMethod.GET)
     protected ChangeLimit formBackingObject(HttpServletRequest request) throws ServletException {
         ChangeLimit changeLimit = new ChangeLimit();
-        changeLimit.setDiaryLimit(150);
-        changeLimit.setMonthlyLimit(300);
+        changeLimit.setDiaryLimit(this.productManager.getProducts().get(0).getCashLimitDiary()); //this.productManager.getCashLimitDiary()
+        changeLimit.setMonthlyLimit(this.productManager.getProducts().get(0).getCashLimitMonthly()); //this.productManager.getCashLimitMonthly()
         return changeLimit;
     }
 
