@@ -17,7 +17,12 @@ import es.unileon.ulebank.exceptions.IncorrectLimitException;
 import es.unileon.ulebank.payments.service.CardManager;
 import es.unileon.ulebank.payments.service.ChangeLimit;
 
-
+/**
+ * Class Controller of the page cashLimits.jsp
+ * @author Rober dCR
+ * @date 10/5/2014
+ * @brief Concrete controller of cashLimits.jsp which change the cash limits of the card in.
+ */
 @Controller
 @RequestMapping(value="/cashLimits.htm")
 public class ChangeCashLimitsFormController {
@@ -25,9 +30,19 @@ public class ChangeCashLimitsFormController {
     /** Logger for this class and subclasses */
     protected final Log logger = LogFactory.getLog(getClass());
 
+    /**
+     * Card which change the limits in
+     */
     @Autowired
     private CardManager productManager;
 
+    /**
+     * Method that obtains the data of the form in cashLimits.jsp and save the changes in the card
+     * @param changeLimit
+     * @param result
+     * @return
+     * @throws IncorrectLimitException
+     */
     @RequestMapping(method = RequestMethod.POST)
     public String onSubmit(@Valid ChangeLimit changeLimit, BindingResult result) throws IncorrectLimitException
     {
@@ -35,27 +50,41 @@ public class ChangeCashLimitsFormController {
             return "cashLimits";
         }
 		
-        double diaryLimit = changeLimit.getDiaryLimit();
-        double monthlyLimit = changeLimit.getMonthlyLimit();
+        int diaryLimit = (int) changeLimit.getDiaryLimit();
+        int monthlyLimit = (int) changeLimit.getMonthlyLimit();
         logger.info("Increasing prices by " + monthlyLimit + "%.");
 
         productManager.changeCashLimits(diaryLimit, monthlyLimit);
 
-        return "redirect:/hello.htm";
+        return "redirect:/changeLimits.htm";
     }
 
+    /**
+     * Method that sends the data of the card's cash limits to the form in cashLimits.jsp
+     * @param request
+     * @return
+     * @throws ServletException
+     */
     @RequestMapping(method = RequestMethod.GET)
     protected ChangeLimit formBackingObject(HttpServletRequest request) throws ServletException {
         ChangeLimit changeLimit = new ChangeLimit();
-        changeLimit.setDiaryLimit(this.productManager.getProducts().get(0).getCashLimitDiary()); //this.productManager.getCashLimitDiary()
-        changeLimit.setMonthlyLimit(this.productManager.getProducts().get(0).getCashLimitMonthly()); //this.productManager.getCashLimitMonthly()
+        changeLimit.setDiaryLimit((int) this.productManager.getProducts().get(0).getCashLimitDiary()); //this.productManager.getCashLimitDiary()
+        changeLimit.setMonthlyLimit((int) this.productManager.getProducts().get(0).getCashLimitMonthly()); //this.productManager.getCashLimitMonthly()
         return changeLimit;
     }
 
+    /**
+     * Setter of the card
+     * @param productManager
+     */
     public void setProductManager(CardManager productManager) {
         this.productManager = productManager;
     }
 
+    /**
+     * Getter of the card
+     * @return
+     */
     public CardManager getProductManager() {
         return productManager;
     }

@@ -9,12 +9,41 @@ import es.unileon.ulebank.payments.Card;
 import es.unileon.ulebank.payments.CardType;
 import es.unileon.ulebank.strategy.StrategyCommission;
 
+/**
+ * CreditCard Class
+ * @author Rober dCR
+ * @date 13/05/2014
+ * @brief Class of credit class adapted for persistance in database
+ */
 public class CreditCard extends Card implements Serializable  {
 
+	/**
+	 * Account associated to card
+	 */
 	private Account account;
+	/**
+	 * Owner of the card
+	 */
 	private Client owner;
+	/**
+	 * Serial Version
+	 */
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * 
+	 * @param cardId
+	 * @param owner
+	 * @param account
+	 * @param type
+	 * @param buyLimitDiary
+	 * @param buyLimitMonthly
+	 * @param cashLimitDiary
+	 * @param cashLimitMonthly
+	 * @param commissionEmission
+	 * @param commissionMaintenance
+	 * @param commissionRenovate
+	 */
     public CreditCard(Handler cardId, Client owner, Account account, CardType type, double buyLimitDiary,
 			double buyLimitMonthly, double cashLimitDiary,
 			double cashLimitMonthly, StrategyCommission commissionEmission,
@@ -27,6 +56,9 @@ public class CreditCard extends Card implements Serializable  {
 		this.account = account;
 	}
     
+    /**
+     * Method that return the card data
+     */
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append("Nº Tarjeta: " + this.getCardNumber() + ";");
@@ -38,19 +70,20 @@ public class CreditCard extends Card implements Serializable  {
         return buffer.toString();
     }
 
+    /**
+     * Method that get the account associated to card
+     * @return the account
+     */
 	public Account getAccount() {
 		return account;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
+	/**
+	 * Method that get the owner associated to card
+	 * @return the owner of the card
+	 */
 	public Client getOwner() {
 		return owner;
 	}
 
-	public void setOwner(Client owner) {
-		this.owner = owner;
-	}
 }

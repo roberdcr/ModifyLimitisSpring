@@ -34,6 +34,6 @@
   <br>
   <input type="submit" value="Save Changes">
 </form:form>
-<a href="<c:url value="hello.htm"/>">Home</a>
+<a href="<c:url value="changeLimits.htm"/>">Home</a>
 </body>
 </html>
