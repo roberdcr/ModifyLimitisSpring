@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	<bean id="productManager" class="es.unileon.ulebank.payments.service.SimpleCardManager">
+		<property name="products">
+			<list>
+				<ref bean="product1" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="product1" class="es.unileon.ulebank.payments.domain.CreditCard">
+		<constructor-arg>
+			<ref bean="cardId" />
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="owner" />
+		</constructor-arg>
+		<constructor-arg value="CREDIT" />
+		<constructor-arg value="100.00" />
+		<constructor-arg value="1000.00" />
+		<constructor-arg value="100.00" />
+		<constructor-arg value="1000.00" />
+		<constructor-arg>
+			<ref bean="commissionEmission" />
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="commissionMaintenance" />
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="commissionRenovate" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="cardId" class="es.unileon.ulebank.handler.CardHandler">
+		<constructor-arg>
+			<ref bean="bankId" />
+		</constructor-arg>
+		<constructor-arg value="01" />
+		<constructor-arg value="123456789" />
+	</bean>
+
+	<bean id="bankId" class="es.unileon.ulebank.bank.BankHandler">
+		<constructor-arg value="1234" />
+	</bean>
+
+	<bean id="owner" class="es.unileon.ulebank.client.Client">
+		<constructor-arg>
+			<ref bean="dni" />
+		</constructor-arg>
+		<constructor-arg value="27" />
+	</bean>
+
+	<bean id="dni" class="es.unileon.ulebank.handler.DNIHandler">
+		<constructor-arg value="71034506H" />
+	</bean>
+
+	<bean id="office" class="es.unileon.ulebank.Office">
+		<constructor-arg>
+			<ref bean="genericOfficeId" />
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="bank" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="genericOfficeId" class="es.unileon.ulebank.handler.GenericHandler">
+		<constructor-arg value="1234" />
+	</bean>
+
+	<bean id="bank" class="es.unileon.ulebank.bank.Bank">
+		<constructor-arg>
+			<ref bean="manager" />
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="genericOfficeId" />
+		</constructor-arg>
+	</bean>
+	
+	<bean id="manager" class="es.unileon.ulebank.transacionManager.TransactionManager">
+	</bean>
+
+	<bean id="commissionEmission" class="es.unileon.ulebank.strategy.StrategyCommissionCreditEmission">
+		<constructor-arg value="0" />
+	</bean>
+	
+	<bean id="commissionMaintenance" class="es.unileon.ulebank.strategy.StrategyCommissionCreditMaintenance">
+		<constructor-arg value="0" />
+	</bean>
+	
+	<bean id="commissionRenovate" class="es.unileon.ulebank.strategy.StrategyCommissionCreditEmission">
+		<constructor-arg value="0" />
+	</bean>
+		
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+	<!-- Este archivo es el WebApplicationContext donde situaremos todos los 
+		componentes -->
+
+	<!-- Scans the classpath of this application for @Components to deploy as 
+		beans -->
+	<context:component-scan base-package="es.unileon.ulebank.payments.web" />
+
+	<!-- Configures the @Controller programming model -->
+	<mvc:annotation-driven />
+
+	<!-- Separa la vista y el controlador, mapeando con el prefijo y sufijo 
+		que le indicamos permitiendo utilizar nombres logicos para las vistas -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+</beans>
+
