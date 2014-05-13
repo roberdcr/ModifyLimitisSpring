@@ -1,43 +1,32 @@
 package es.unileon.ulebank.payments.service;
 
-import java.util.List;
-
 import es.unileon.ulebank.exceptions.IncorrectLimitException;
-import es.unileon.ulebank.payments.domain.CreditCard;
+import es.unileon.ulebank.payments.Card;
 
 public class SimpleCardManager implements CardManager {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private List<CreditCard> cards;
+	private Card card;
 
-    public List<CreditCard> getProducts() {
-        return cards; 
-    }
+	public Card getProducts() {
+		return card; 
+	}
 
 	public void changeBuyLimits(double diary, double monthly)
 			throws IncorrectLimitException {
-		if (cards != null) {
-            for (CreditCard card : cards) {
-                card.setBuyLimitDiary(diary);
-                card.setBuyLimitMonthly(monthly);
-            }
-        }
+		card.setBuyLimitDiary(diary);
+		card.setBuyLimitMonthly(monthly);
 	}
 
 	public void changeCashLimits(double diary, double monthly)
 			throws IncorrectLimitException {
-		if (cards != null) {
-            for (CreditCard card : cards) {
-                card.setCashLimitDiary(diary);
-                card.setCashLimitMonthly(monthly);
-            }
-        }
-		
+		card.setCashLimitDiary(diary);
+		card.setCashLimitMonthly(monthly);
 	}
-	
-    public void setProducts(List<CreditCard> cards) {
-        this.cards = cards;
-    }
+
+	public void setProducts(Card card) {
+		this.card = card;
+	}
 
 }

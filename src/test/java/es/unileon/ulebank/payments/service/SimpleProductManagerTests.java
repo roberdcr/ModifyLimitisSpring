@@ -83,7 +83,7 @@ public class SimpleProductManagerTests {
     public void testIncreasePriceWithEmptyListOfProducts() {
         try {
             productManager = new SimpleCardManager();
-            productManager.setProducts(new ArrayList<CreditCard>());
+            //productManager.setProducts(new ArrayList<CreditCard>());
             //productManager.changeBuyLimits(POSITIVE_PRICE_INCREASE);
         }
         catch(Exception ex) {
