@@ -31,7 +31,7 @@ public class InventoryController {
     @Autowired
     private CardManager cardManager;
     
-    @RequestMapping(value="/hello.htm")
+    @RequestMapping(value="/changeLimits.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -42,7 +42,7 @@ public class InventoryController {
         myModel.put("now", now);
         myModel.put("products", this.cardManager.getProducts());
 
-        return new ModelAndView("hello", "model", myModel);
+        return new ModelAndView("changeLimits", "model", myModel);
     }
 
 
