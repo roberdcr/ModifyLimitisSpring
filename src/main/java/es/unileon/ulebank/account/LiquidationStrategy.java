@@ -1,3 +1,5 @@
+/* Application developed for AW subject, belonging to passive operations
+ group.*/
 package es.unileon.ulebank.account;
 
 import es.unileon.ulebank.handler.Handler;

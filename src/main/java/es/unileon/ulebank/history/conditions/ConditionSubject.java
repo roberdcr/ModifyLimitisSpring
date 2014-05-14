@@ -34,6 +34,7 @@ public class ConditionSubject<T extends Transaction> implements Condition<T> {
         this.isValidSubject = isValidSubject;
     }
 
+    @Override
     public boolean test(T t) {
         return t.getSubject().contains(this.word) ^ !isValidSubject;
     }

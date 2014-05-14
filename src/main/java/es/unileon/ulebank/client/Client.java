@@ -1,10 +1,13 @@
+/* Application developed for AW subject, belonging to passive operations
+ group.*/
+
 package es.unileon.ulebank.client;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.account.exception.AccountNotFoundException;
+import es.unileon.ulebank.account.AccountHandler;
 import es.unileon.ulebank.handler.Handler;
 
 /**
@@ -91,10 +94,9 @@ public class Client {
         return result;
     }
     
-    public Account searchAccount(Handler account2) throws NullPointerException, AccountNotFoundException {
+    public Account searchAccount(AccountHandler handler) {
 		Iterator<Account> iterator = accounts.iterator();
 		Account account = null;
-		boolean found = false;
 		
 		if (this.accounts.isEmpty()) {
 			throw new NullPointerException("Account list is empty.");
@@ -103,19 +105,15 @@ public class Client {
 		while (iterator.hasNext()) {
 			account = iterator.next();
 			
-			if (account.getID().compareTo(account2) == 0) {
-				found = true;
+			if (account.getID().compareTo(handler) == 0) {
 				break;
 			}
 		}
-		if (found) {
-			return account;
-		} else {
-			throw new AccountNotFoundException("This account does not exists.");
-		}
+		
+		return account;
 	}
 
-	/**
+    /**
      * @return id of the client
      */
     public Handler getId() {

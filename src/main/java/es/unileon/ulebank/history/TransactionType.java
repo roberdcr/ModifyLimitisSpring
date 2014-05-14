@@ -1,37 +1,34 @@
 package es.unileon.ulebank.history;
 
 /**
- * 
- * @author roobre, Rober dCR
  *
+ * @author roobre
  */
 public enum TransactionType {
-	/**
-    *
-    */
-   CHARGE,
-   /**
-    *
-    */
-   PAYMENT,
-   /**
-    *
-    */
-   PAYROLL,
-   /**
-    *
-    */
-   SALARY,
-   /**
-    *
-    */
-   IN,
-   /**
-    *
-    */
-   OUT,
-   /**
-    * 
-    */
-   TRANSFER,
+
+    /**
+     *
+     */
+    CHARGE,
+    /**
+     *
+     */
+    PAYMENT,
+    /**
+     *
+     */
+    PAYROLL,
+    /**
+     *
+     */
+    SALARY,
+    /**
+     *
+     */
+    IN,
+    /**
+     *
+     */
+    OUT,
+
 }

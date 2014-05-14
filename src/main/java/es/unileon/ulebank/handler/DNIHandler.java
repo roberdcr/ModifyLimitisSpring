@@ -24,7 +24,7 @@ public class DNIHandler implements Handler{
     
     private char foreingLetter;
     /**
-     * Creates the es.unileon.ulebank.handler of the person with the dni data
+     * Creates the handler of the person with the dni data
      * @param dni
      * @param letter
      * @throws MalformedHandlerException if the letter doesn't match with the dni number
@@ -100,13 +100,14 @@ public class DNIHandler implements Handler{
     }
     
     
+    @Override
     public int compareTo(Handler another) {
         return this.toString().compareTo(another.toString());
     }
     
     /**
      *
-     * @return
+     * @return String
      */
     @Override
     public String toString(){

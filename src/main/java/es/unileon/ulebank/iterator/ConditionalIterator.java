@@ -68,7 +68,7 @@ public abstract class ConditionalIterator<T> implements Iterator<T> {
      * @param iterator
      */
     public ConditionalIterator(Condition<T> condition, Iterator<T> iterator) {
-        this.conditions = new ArrayList<Condition<T>>();
+        this.conditions = new ArrayList<>();
         this.conditions.add(condition);
         this.elementsIterator = iterator;
         this.calcNext();
@@ -91,6 +91,7 @@ public abstract class ConditionalIterator<T> implements Iterator<T> {
      *
      * @return ( true if there are elements, false otherwise )
      */
+    @Override
     public boolean hasNext() {
         return this.next != null;
     }
@@ -100,6 +101,7 @@ public abstract class ConditionalIterator<T> implements Iterator<T> {
      *
      * @return (next element)
      */
+    @Override
     public T next() {
         T element = this.next;
         this.calcNext();
@@ -129,6 +131,7 @@ public abstract class ConditionalIterator<T> implements Iterator<T> {
     /**
      * Not supported in this iterator.
      */
+    @Override
     public void remove() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
 	<bean id="productManager" class="es.unileon.ulebank.payments.service.SimpleCardManager">
-		<property name="card" ref="product1"/>
+		<property name="card" ref="product1" />
 	</bean>
 
 	<bean id="product1" class="es.unileon.ulebank.payments.domain.CreditCard">
@@ -20,20 +20,13 @@
 		<constructor-arg>
 			<ref bean="account" />
 		</constructor-arg>
-		<constructor-arg value="CREDIT" />
 		<constructor-arg value="100.00" />
 		<constructor-arg value="1000.00" />
 		<constructor-arg value="100.00" />
 		<constructor-arg value="1000.00" />
-		<constructor-arg>
-			<ref bean="commissionEmission" />
-		</constructor-arg>
-		<constructor-arg>
-			<ref bean="commissionMaintenance" />
-		</constructor-arg>
-		<constructor-arg>
-			<ref bean="commissionRenovate" />
-		</constructor-arg>
+		<constructor-arg value="0.00" />
+		<constructor-arg value="0.00" />
+		<constructor-arg value="0.00" />
 	</bean>
 
 	<bean id="cardId" class="es.unileon.ulebank.handler.CardHandler">
@@ -59,7 +52,7 @@
 		<constructor-arg value="71034506H" />
 	</bean>
 
-	<bean id="office" class="es.unileon.ulebank.Office">
+	<bean id="office" class="es.unileon.ulebank.office.Office">
 		<constructor-arg>
 			<ref bean="genericOfficeId" />
 		</constructor-arg>
@@ -81,18 +74,21 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="manager" class="es.unileon.ulebank.transacionManager.TransactionManager">
+	<bean id="manager" class="es.unileon.ulebank.transactionManager.TransactionManager">
 	</bean>
 
-	<bean id="commissionEmission" class="es.unileon.ulebank.strategy.StrategyCommissionCreditEmission">
+	<bean id="commissionEmission" class="es.unileon.ulebank.fees.LinearFee">
+		<constructor-arg value="0" />
 		<constructor-arg value="0" />
 	</bean>
 	
-	<bean id="commissionMaintenance" class="es.unileon.ulebank.strategy.StrategyCommissionCreditMaintenance">
+	<bean id="commissionMaintenance" class="es.unileon.ulebank.fees.LinearFee">
+		<constructor-arg value="0" />
 		<constructor-arg value="0" />
 	</bean>
 	
-	<bean id="commissionRenovate" class="es.unileon.ulebank.strategy.StrategyCommissionCreditEmission">
+	<bean id="commissionRenovate" class="es.unileon.ulebank.fees.LinearFee">
+		<constructor-arg value="0" />
 		<constructor-arg value="0" />
 	</bean>
 	

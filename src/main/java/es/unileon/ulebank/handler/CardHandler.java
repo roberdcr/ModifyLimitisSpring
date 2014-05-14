@@ -46,6 +46,14 @@ public class CardHandler implements Handler {
 	 */
 	private int controlDigit;
 	
+	/**
+	 * Constructor de la clase
+	 * 
+	 * @param bankId
+	 * @param officeId
+	 * @param cardId
+	 * @throws MalformedHandlerException
+	 */
 	public CardHandler(Handler bankId, String officeId, String cardId) throws MalformedHandlerException {
 		StringBuilder errors = new StringBuilder();
 		//Creo un patron de comprobacion para verificar que no se introducen caracteres en los numeros de la tarjeta
@@ -105,7 +113,7 @@ public class CardHandler implements Handler {
 	/**
 	 * Genera el digito de control empleando el algoritmo de Luhn
 	 * @param digits
-	 * @return
+	 * @return int
 	 */
 	protected int generateControlDigit(int[] digits) {
 		return (10 - verifyCardNumber(digits)) % 10;
@@ -116,7 +124,7 @@ public class CardHandler implements Handler {
 	 * tambien se puede emplear para generar el digito de control realizando 
 	 * la operacion 10-verifyCardNumber(digits[])
 	 * @param digits
-	 * @return
+	 * @return int
 	 */
 	protected int verifyCardNumber(int[] digits) {
 		return ((sumOddPlaces(digits) + sumEvenPlaces(digits)) % 10);
@@ -125,7 +133,7 @@ public class CardHandler implements Handler {
 	/**
 	 * Realiza la suma de las posiciones impares de izquierda a derecha del numero de la tarjeta
 	 * @param digits
-	 * @return
+	 * @return int
 	 */
 	private int sumOddPlaces(int[] digits) {
 		int sum = 0;
@@ -147,7 +155,7 @@ public class CardHandler implements Handler {
 	/**
 	 * Realiza la suma de las posiciones pares de izquierda a derecha del numero de la tarjeta
 	 * @param digits
-	 * @return
+	 * @return int
 	 */
 	private int sumEvenPlaces(int[] digits) {
 		int sum = 0;
@@ -161,7 +169,7 @@ public class CardHandler implements Handler {
 	
 	/**
 	 * Devuelve el identificador del banco
-	 * @return
+	 * @return Handler
 	 */
 	public Handler getBankHandler() {
 		return bankId;
@@ -169,7 +177,7 @@ public class CardHandler implements Handler {
 
 	/**
 	 * Devuelve el identificador de la sucursal
-	 * @return
+	 * @return String
 	 */
 	public String getOfficeId() {
 		return officeId;
@@ -177,7 +185,7 @@ public class CardHandler implements Handler {
 
 	/**
 	 * Devuelve el digito de control de la tarjeta
-	 * @return
+	 * @return int
 	 */
 	public int getControlDigit() {
 		return controlDigit;
@@ -185,7 +193,7 @@ public class CardHandler implements Handler {
 	
 	/**
 	 * Devuelve el identificador de la tarjeta
-	 * @return
+	 * @return String
 	 */
 	public String getCardId() {
 		return cardId;
@@ -196,12 +204,14 @@ public class CardHandler implements Handler {
 	 * @return devuelve un 0 si son iguales
 	 * @return devuelve otro numero si son distintos
 	 */
+	@Override
 	public int compareTo(Handler another) {
 		return this.toString().compareTo(another.toString());
 	}
 	
 	/**
 	 * Devuelve el identificador con el formato de la tarjeta dividido en bloques de 4
+	 * @return String
 	 */
 	public String toString() {
 		StringBuilder result = new StringBuilder();
@@ -226,7 +236,7 @@ public class CardHandler implements Handler {
 	
 	/**
 	 * Devuelve el tamagno de la tarjeta
-	 * @return
+	 * @return int
 	 */
 	public int getCardLength() {
 		return CARD_LENGTH;
@@ -234,7 +244,7 @@ public class CardHandler implements Handler {
 	
 	/**
 	 * Devuelve el tamagno del identificador del banco
-	 * @return
+	 * @return int
 	 */
 	public int getBankIdLength() {
 		return BANK_ID_LENGTH;
@@ -242,7 +252,7 @@ public class CardHandler implements Handler {
 	
 	/**
 	 * Devuelve el tamagno del identificador de la oficina
-	 * @return
+	 * @return int
 	 */
 	public int getOfficeIdLength() {
 		return OFFICE_ID_LENGTH;

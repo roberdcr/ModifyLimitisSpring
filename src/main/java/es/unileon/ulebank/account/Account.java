@@ -1,26 +1,24 @@
 package es.unileon.ulebank.account;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-import es.unileon.ulebank.Office;
+import es.unileon.ulebank.office.Office;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.client.Client;
-import es.unileon.ulebank.exceptions.CardNotFoundException;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
-import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.handler.CardHandler;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.history.History;
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;
 import es.unileon.ulebank.payments.Card;
+import org.apache.log4j.Logger;
 
-/***
+/**
  *
  * @author runix
  */
@@ -92,13 +90,13 @@ public class Account {
      */
     public Account(Office office, Bank bank, String accountnumber) throws MalformedHandlerException {
         this.id = new AccountHandler(office.getIdOffice(), bank.getID(), accountnumber);
-        this.history = new History<Transaction>();
+        this.history = new History<>();
         this.balance = 0.0d;
-        this.titulars = new ArrayList<Client>();
-        this.authorizeds = new ArrayList<Client>();
+        this.titulars = new ArrayList<>();
+        this.authorizeds = new ArrayList<>();
         this.lastLiquidation = new Date(System.currentTimeMillis());
         this.liquidationFrecuency = DEFAULT_LIQUIDATION_FREQUENCY;
-        this.liquidationStrategies = new ArrayList<LiquidationStrategy>();
+        this.liquidationStrategies = new ArrayList<>();
         this.maxOverdraft = 0;
         this.cards = new ArrayList<Card>();
         LOG.info("Create a new account with number " + accountnumber + " office " + office.getIdOffice().toString() + " bank " + bank.getID());
@@ -254,7 +252,7 @@ public class Account {
      * @return ( The titulars )
      */
     public List<Client> getTitulars() {
-        return new ArrayList<Client>(this.titulars);
+        return new ArrayList<>(this.titulars);
     }
 
     /**
@@ -263,7 +261,7 @@ public class Account {
      * @return ( the authorizeds )
      */
     public List<Client> getAuthorizeds() {
-        return new ArrayList<Client>(this.authorizeds);
+        return new ArrayList<>(this.authorizeds);
     }
 
     /**

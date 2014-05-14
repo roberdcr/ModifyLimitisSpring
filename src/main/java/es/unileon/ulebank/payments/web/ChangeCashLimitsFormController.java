@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.security.auth.login.AccountNotFoundException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -13,11 +14,10 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import es.unileon.ulebank.account.exception.AccountNotFoundException;
 import es.unileon.ulebank.exceptions.CardNotFoundException;
 import es.unileon.ulebank.exceptions.IncorrectLimitException;
 import es.unileon.ulebank.exceptions.PaymentException;
-import es.unileon.ulebank.exceptions.TransactionException;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.payments.service.CardManager;
 import es.unileon.ulebank.payments.service.ChangeLimit;
 

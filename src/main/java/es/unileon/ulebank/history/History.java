@@ -19,7 +19,7 @@ public class History<T extends Transaction> {
      *
      */
     public History() {
-        this.transactions = new ArrayList<T>();
+        this.transactions = new ArrayList();
     }
 
     /**

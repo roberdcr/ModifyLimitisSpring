@@ -30,6 +30,7 @@ public class TransactionHandler implements Handler {
         return timestamp + "." + Long.toString(id);
     }
 
+    @Override
     public int compareTo(Handler another) {
         return this.toString().compareTo(another.toString());
     }

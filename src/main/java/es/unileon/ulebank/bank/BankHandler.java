@@ -1,3 +1,5 @@
+/* Application developed for AW subject, belonging to passive operations
+ group.*/
 package es.unileon.ulebank.bank;
 
 import es.unileon.ulebank.handler.Handler;
@@ -14,7 +16,7 @@ public class BankHandler implements Handler {
     /**
      * The number of digits
      */
-    private static final int BANK_NUMBER_DIGITS = 4;
+    private static final int BANK_NUMBER_DIGITS = 0b100;
     /**
      * Bank's number
      */
@@ -37,6 +39,7 @@ public class BankHandler implements Handler {
         }
     }
 
+    @Override
     public int compareTo(Handler another) {
         return this.toString().compareTo(another.toString());
     }

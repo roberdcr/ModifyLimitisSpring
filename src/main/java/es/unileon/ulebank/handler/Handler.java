@@ -1,18 +1,25 @@
+/* Application developed for AW subject, belonging to passive operations
+ group.*/
 package es.unileon.ulebank.handler;
+
 /**
- * @author Israel
- *  Interface para implementar el patron Handler permitiendo tener identificadores unicos
+ * Handler pattern.
+ * @author runix
  */
 public interface Handler {
-	/**
-	 * Compara el Handler con otro y devuelve un entero en funcion de la similitud
-	 * @param another
-	 * @return
-	 */
-	public int compareTo(Handler another);
-	/**
-	 * Devuelve el Handler en forma de String
-	 * @return
-	 */
-	public String toString();
+
+    /**
+     * Compare the actual handler with another
+     *
+     * @param another ( Handler to compare )
+     * @return (0 if are equals, != 0 otherwise )
+     */
+    public int compareTo(Handler another);
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String toString();
 }

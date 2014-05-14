@@ -12,13 +12,15 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.exceptions.IncorrectLimitException;
-import es.unileon.ulebank.exceptions.TransactionException;
+import es.unileon.ulebank.exceptions.PaymentException;
+import es.unileon.ulebank.fees.FeeStrategy;
 import es.unileon.ulebank.handler.CardHandler;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.history.History;
 import es.unileon.ulebank.history.Transaction;
-import es.unileon.ulebank.strategy.StrategyCommission;
+import es.unileon.ulebank.history.TransactionException;
 
 /**
  * @author Israel
@@ -138,15 +140,15 @@ public abstract class Card {
 	/**
 	 * Comision de emision de la tarjeta
 	 */
-	private StrategyCommission commissionEmission;
+	private FeeStrategy commissionEmission;
 	/**
 	 * Comision de mantenimiento de la tarjeta
 	 */
-	private StrategyCommission commissionMaintenance;
+	private FeeStrategy commissionMaintenance;
 	/**
 	 * Comision de renovacion de la tarjeta
 	 */
-	private StrategyCommission commissionRenovate;
+	private FeeStrategy commissionRenovate;
 	/**
 	 * Historia de las transacciones realizadas con la tarjeta
 	 */
@@ -167,8 +169,15 @@ public abstract class Card {
 	 * @param commissionRenovate
 	 */
 	public Card(Handler cardId, CardType type, double buyLimitDiary, double buyLimitMonthly, 
-			double cashLimitDiary, double cashLimitMonthly,StrategyCommission commissionEmission, 
-			StrategyCommission commissionMaintenance, StrategyCommission commissionRenovate) {
+			double cashLimitDiary, double cashLimitMonthly, FeeStrategy commissionEmission, 
+			FeeStrategy commissionMaintenance, FeeStrategy commissionRenovate) {
+		try {
+			this.setDefaultCardProperties();
+		} catch (FileNotFoundException e) {
+			LOG.info("The file is not found.");
+		} catch (IOException e) {
+			LOG.info(e.getMessage());
+		}
 		this.cardId = (CardHandler) cardId;
 		this.cardType = type;
 		this.pin = generatePinCode();
@@ -183,14 +192,6 @@ public abstract class Card {
 		this.commissionMaintenance = commissionMaintenance;
 		this.commissionRenovate = commissionRenovate;
 		this.transactionHistory = new History<Transaction>();
-		
-		try {
-			this.setDefaultCardProperties();
-		} catch (FileNotFoundException e) {
-			LOG.info("The file is not found.");
-		} catch (IOException e) {
-			LOG.info(e.getMessage());
-		}
 	}
 	
 	/**
@@ -211,7 +212,7 @@ public abstract class Card {
 
 	/**
 	 * Genera el codigo pin de la tarjeta
-	 * @return
+	 * @return String
 	 */
 	public String generatePinCode() {
 		StringBuilder result = new StringBuilder();
@@ -225,7 +226,7 @@ public abstract class Card {
 	
 	/**
 	 * Genera la fecha de emision de la tarjeta
-	 * @return
+	 * @return String
 	 */
 	public String generateEmissionDate() {
 		//Generamos la fecha dandole el formato estandar dd/MM/yyyy
@@ -236,7 +237,7 @@ public abstract class Card {
 	
 	/**
 	 * Genera una fecha de caducidad para la tarjeta
-	 * @return
+	 * @return String
 	 */
 	public String generateExpirationDate() {
 		//Obtenemos una instancia del calendario
@@ -257,7 +258,7 @@ public abstract class Card {
 	
 	/**
 	 * Genera el codigo de validacion CVV
-	 * @return
+	 * @return String
 	 */
 	public String generateCVV() {
 		StringBuilder result = new StringBuilder();
@@ -271,7 +272,7 @@ public abstract class Card {
 	
 	/**
 	 * Devuelve el identificador de la tarjeta
-	 * @return
+	 * @return String
 	 */
 	public String getCardId() {
 		return this.cardId.toString();
@@ -279,7 +280,7 @@ public abstract class Card {
 	
 	/**
 	 * Devuelve el codigo PIN de la tarjeta
-	 * @return
+	 * @return String
 	 */
 	public String getPin() {
 		return this.pin;
@@ -309,7 +310,7 @@ public abstract class Card {
 	/**
 	 * Comprueba que el pin sea correcto
 	 * @param pin
-	 * @return
+	 * @return boolean
 	 */
 	public boolean checkPin(String pin) {
 		//Si el pin coincide devuelve true
@@ -323,7 +324,7 @@ public abstract class Card {
 	
 	/**
 	 * Devuelve el limite de la tarjeta diario para compras
-	 * @return
+	 * @return double
 	 */
 	public double getBuyLimitDiary() {
 		return this.buyLimitDiary;
@@ -348,7 +349,7 @@ public abstract class Card {
 	/**
 	 * Comprueba que el precio no exceda el limite de la tarjeta
 	 * @param price
-	 * @return
+	 * @return boolean
 	 */
 	public boolean checkBuyLimitDiary(double price) {
 		//Si el precio es mayor que el limite de compra diario devuelve false
@@ -362,7 +363,7 @@ public abstract class Card {
 	
 	/**
 	 * Devuelve el limite de la tarjeta mensual para compras
-	 * @return
+	 * @return double
 	 */
 	public double getCashLimitMonthly() {
 		return cashLimitMonthly;
@@ -370,7 +371,7 @@ public abstract class Card {
 	
 	/**
 	 * Devuelve el limite de compra mensual
-	 * @return
+	 * @return double
 	 */
 	public double getBuyLimitMonthly() {
 		return buyLimitMonthly;
@@ -393,7 +394,7 @@ public abstract class Card {
 
 	/**
 	 * Devuelve el limite de la tarjeta para extracciones en cajeros
-	 * @return
+	 * @return double
 	 */
 	public double getCashLimitDiary() {
 		return this.cashLimitDiary;
@@ -417,7 +418,7 @@ public abstract class Card {
 	/**
 	 * Comprueba que la cantidad solicitada para extraer en cajero no exceda el limite de la tarjeta
 	 * @param cash
-	 * @return
+	 * @return boolean
 	 */
 	public boolean checkCashLimitDiary(double cash) {
 		//Si la cantidad solicitada para extraer es mayor que la cantidad maxima diaria devuelve false
@@ -446,7 +447,7 @@ public abstract class Card {
 	
 	/**
 	 * Devuelve la fecha de emision de la tarjeta
-	 * @return
+	 * @return String
 	 */
 	public String getEmissionDate() {
 		return emissionDate;
@@ -454,7 +455,7 @@ public abstract class Card {
 
 	/**
 	 * Devuelve la fecha de caducidad de la tarjeta
-	 * @return
+	 * @return String
 	 */
 	public String getExpirationDate() {
 		return this.expirationDate;
@@ -470,7 +471,7 @@ public abstract class Card {
 
 	/**
 	 * Devuelve el tipo de tarjeta
-	 * @return
+	 * @return CardType
 	 */
 	public CardType getCardType() {
 		return this.cardType;
@@ -478,7 +479,7 @@ public abstract class Card {
 
 	/**
 	 * Devuelve el codigo de validacion CVV
-	 * @return
+	 * @return String
 	 */
 	public String getCvv() {
 		return this.cvv;
@@ -507,7 +508,7 @@ public abstract class Card {
 
 	/**
 	 * Devuelve el numero de la tarjeta
-	 * @return
+	 * @return Handler
 	 */
 	public Handler getCardNumber() {
 		return cardId;
@@ -515,7 +516,7 @@ public abstract class Card {
 
 	/**
 	 * Devuelve el limite diario de compra por defecto
-	 * @return
+	 * @return double
 	 */
 	public double getBuyLimitDiaryDefault() {
 		return buyLimitDiaryDefault;
@@ -536,7 +537,7 @@ public abstract class Card {
 
 	/**
 	 * Devuelve el limite mensual de compra por defecto
-	 * @return
+	 * @return double
 	 */
 	public double getBuyLimitMonthlyDefault() {
 		return buyLimitMonthlyDefault;
@@ -557,7 +558,7 @@ public abstract class Card {
 
 	/**
 	 * Devuelve el limite diario de extraccion en cajero por defecto
-	 * @return
+	 * @return double
 	 */
 	public double getCashLimitDiaryDefault() {
 		return cashLimitDiaryDefault;
@@ -578,7 +579,7 @@ public abstract class Card {
 
 	/**
 	 * Devuelve el limite mensual de extraccion en cajero por defecto
-	 * @return
+	 * @return double
 	 */
 	public double getCashLimitMonthlyDefault() {
 		return cashLimitMonthlyDefault;
@@ -599,49 +600,49 @@ public abstract class Card {
 
 	/**
 	 * Devuelve la comision de emision de la tarjeta
-	 * @return
+	 * @return float
 	 */
-	public float getCommissionEmission() {
-		return commissionEmission.calculateCommission();
+	public double getCommissionEmission(double value) {
+		return commissionEmission.getFee(value);
 	}
 
 	/**
 	 * Cambia la comision de emision por la que recibe
 	 * @param commissionEmission
 	 */
-	public void setCommissionEmission(StrategyCommission commissionEmission) {
+	public void setCommissionEmission(FeeStrategy commissionEmission) {
 		this.commissionEmission = commissionEmission;
 	}
 
 	/**
 	 * Devuelve la comisionde mantenimiento de la tarjeta
-	 * @return
+	 * @return float
 	 */
-	public float getCommissionMaintenance() {
-		return commissionMaintenance.calculateCommission();
+	public double getCommissionMaintenance(double value) {
+		return commissionMaintenance.getFee(value);
 	}
 
 	/**
 	 * Cambia la comision de mantenimiento por la que se indica
 	 * @param commissionMaintenance
 	 */
-	public void setCommissionMaintenance(StrategyCommission commissionMaintenance) {
+	public void setCommissionMaintenance(FeeStrategy commissionMaintenance) {
 		this.commissionMaintenance = commissionMaintenance;
 	}
 
 	/**
 	 * Devuelve la comision de renovacion de la tarjeta
-	 * @return
+	 * @return float
 	 */
-	public float getCommissionRenovate() {
-		return commissionRenovate.calculateCommission();
+	public double getCommissionRenovate(double value) {
+		return commissionRenovate.getFee(value);
 	}
 
 	/**
 	 * Cambia la comision de renovacion por la que se recibe
 	 * @param commissionRenovate
 	 */
-	public void setCommissionRenovate(StrategyCommission commissionRenovate) {
+	public void setCommissionRenovate(FeeStrategy commissionRenovate) {
 		this.commissionRenovate = commissionRenovate;
 	}
 	
@@ -651,11 +652,11 @@ public abstract class Card {
 	 * @throws FileNotFoundException 
 	 */
 	public void setMinimumLimit() throws FileNotFoundException, IOException {
-		Properties ageProperty = new Properties();
-		ageProperty.load(new FileInputStream("src/es/unileon/ulebank/properties/card.properties"));
+		Properties minimumLimitProperty = new Properties();
+		minimumLimitProperty.load(new FileInputStream("src/es/unileon/ulebank/properties/card.properties"));
 		
 		/**Obtenemos los parametros definidos en el archivo*/
-		this.minimumLimit = Double.parseDouble(ageProperty.getProperty(this.MINIMUM_LIMIT));
+		this.minimumLimit = Double.parseDouble(minimumLimitProperty.getProperty(this.MINIMUM_LIMIT));
 	}
 
 	/**
@@ -664,11 +665,11 @@ public abstract class Card {
 	 * @throws IOException
 	 */
 	public void setExpirationYear() throws FileNotFoundException, IOException {
-		Properties ageProperty = new Properties();
-		ageProperty.load(new FileInputStream("src/es/unileon/ulebank/properties/card.properties"));
+		Properties expirationYearProperty = new Properties();
+		expirationYearProperty.load(new FileInputStream("src/es/unileon/ulebank/properties/card.properties"));
 		
 		/**Obtenemos los parametros definidos en el archivo*/
-		this.expirationYear = Integer.parseInt(ageProperty.getProperty(this.EXPIRATION_YEAR));
+		this.expirationYear = Integer.parseInt(expirationYearProperty.getProperty(this.EXPIRATION_YEAR));
 	}
 
 	/**
@@ -677,11 +678,11 @@ public abstract class Card {
 	 * @throws FileNotFoundException 
 	 */
 	public void setCvvSize() throws FileNotFoundException, IOException {
-		Properties ageProperty = new Properties();
-		ageProperty.load(new FileInputStream("src/es/unileon/ulebank/properties/card.properties"));
+		Properties cvvProperty = new Properties();
+		cvvProperty.load(new FileInputStream("src/es/unileon/ulebank/properties/card.properties"));
 		
 		/**Obtenemos los parametros definidos en el archivo*/
-		this.cvvSize = Integer.parseInt(ageProperty.getProperty(this.CVV_SIZE));
+		this.cvvSize = Integer.parseInt(cvvProperty.getProperty(this.CVV_SIZE));
 	}
 
 	/**
@@ -690,17 +691,17 @@ public abstract class Card {
 	 * @throws IOException
 	 */
 	public void setPinSize() throws FileNotFoundException, IOException {
-		Properties ageProperty = new Properties();
-		ageProperty.load(new FileInputStream("src/es/unileon/ulebank/properties/card.properties"));
+		Properties pinProperty = new Properties();
+		pinProperty.load(new FileInputStream("src/es/unileon/ulebank/properties/card.properties"));
 		
 		/**Obtenemos los parametros definidos en el archivo*/
-		this.pinSize = Integer.parseInt(ageProperty.getProperty(this.PIN_SIZE));
+		this.pinSize = Integer.parseInt(pinProperty.getProperty(this.PIN_SIZE));
 	}
 
 	/**
 	 * Comprueba que el String recibido sea solo numerico
 	 * @param string
-	 * @return
+	 * @return boolean
 	 */
 	private boolean checkStringNumber(String string) {
 		//Crea un patron para indicar que solo debe contener numeros
@@ -723,9 +724,21 @@ public abstract class Card {
 	 * @throws TransactionException 
 	 */
 	public void addTransaction(Transaction transaction) throws TransactionException{
-		//Si devuelve false la transacci�n ya esta incluida
+		//Si devuelve false la transaccion ya esta incluida
 		if (!this.transactionHistory.add(transaction))
 			throw new TransactionException("Transacion already exists.");
+	}
+	
+	/**
+	 * Method that makes the payment
+	 * @param receiverAccount Account which receives the money from the card
+	 * @param quantity Amount of the payment
+	 * @param payConcept Concept of the payment
+	 * @throws PaymentException 
+	 * @throws TransactionException 
+	 */
+	public void makeTransaction(Account receiverAccount, double quantity, String payConcept) throws PaymentException, TransactionException {
+		
 	}
 
 }

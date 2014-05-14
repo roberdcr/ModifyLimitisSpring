@@ -11,7 +11,7 @@ public class OfficeHandler implements Handler {
 
 	private String numberOffice;
 
-	public OfficeHandler(int number)  {
+	public OfficeHandler(int number) throws MalformedHandlerException  {
 
 		if (number >= 0) {
 
@@ -34,7 +34,7 @@ public class OfficeHandler implements Handler {
 		}
 	}
 
-	public OfficeHandler(String numberOffice)  {
+	public OfficeHandler(String numberOffice) throws MalformedHandlerException  {
             try {
                 Integer.parseInt(numberOffice);
             } catch (NumberFormatException e) {
@@ -67,6 +67,7 @@ public class OfficeHandler implements Handler {
         
         
 
+	@Override
 	public int compareTo(Handler another) {
 		return this.numberOffice.compareTo(another.toString());
 	}

@@ -25,6 +25,7 @@ public class CommandHandler implements Handler {
 		this.date = dateFormat.format(new Date());
 	}
 	
+	@Override
 	public int compareTo(Handler another) {
 		return this.toString().compareTo(another.toString());
 	}
@@ -39,12 +40,15 @@ public class CommandHandler implements Handler {
 
 	/**
 	 * Getter date
-	 * @return date
+	 * @return String
 	 */
 	public String getDate(){
 		return this.date.toString();
 	}
 	
+	/**
+	 * Devuelve en una cadena de strings el id y la fecha
+	 */
 	public String toString() {
 		return this.id.toString() + " " + date.toString();
 	}

@@ -1,13 +1,14 @@
 package es.unileon.ulebank.payments.service;
 
-import es.unileon.ulebank.account.exception.AccountNotFoundException;
+import javax.security.auth.login.AccountNotFoundException;
+
 import es.unileon.ulebank.command.Command;
 import es.unileon.ulebank.command.ModifyBuyLimitCommand;
 import es.unileon.ulebank.command.ModifyCashLimitCommand;
 import es.unileon.ulebank.exceptions.CardNotFoundException;
 import es.unileon.ulebank.exceptions.IncorrectLimitException;
 import es.unileon.ulebank.exceptions.PaymentException;
-import es.unileon.ulebank.exceptions.TransactionException;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.payments.Card;
 
 /**
