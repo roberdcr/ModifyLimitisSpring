@@ -13,7 +13,11 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import es.unileon.ulebank.account.exception.AccountNotFoundException;
+import es.unileon.ulebank.exceptions.CardNotFoundException;
 import es.unileon.ulebank.exceptions.IncorrectLimitException;
+import es.unileon.ulebank.exceptions.PaymentException;
+import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.payments.service.CardManager;
 import es.unileon.ulebank.payments.service.ChangeLimit;
 
@@ -42,9 +46,13 @@ public class ChangeCashLimitsFormController {
      * @param result
      * @return
      * @throws IncorrectLimitException
+     * @throws CardNotFoundException 
+     * @throws TransactionException 
+     * @throws PaymentException 
+     * @throws AccountNotFoundException 
      */
     @RequestMapping(method = RequestMethod.POST)
-    public String onSubmit(@Valid ChangeLimit changeLimit, BindingResult result) throws IncorrectLimitException
+    public String onSubmit(@Valid ChangeLimit changeLimit, BindingResult result) throws IncorrectLimitException, AccountNotFoundException, PaymentException, TransactionException, CardNotFoundException
     {
         if (result.hasErrors()) {
             return "cashLimits";

@@ -3,16 +3,10 @@ package es.unileon.ulebank.command;
 
 import org.apache.log4j.Logger;
 
-import es.unileon.ulebank.Office;
-import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.account.AccountHandler;
 import es.unileon.ulebank.account.exception.AccountNotFoundException;
 import es.unileon.ulebank.exceptions.CardNotFoundException;
-import es.unileon.ulebank.exceptions.ClientNotFoundException;
 import es.unileon.ulebank.exceptions.IncorrectLimitException;
-import es.unileon.ulebank.handler.CardHandler;
 import es.unileon.ulebank.handler.CommandHandler;
-import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.payments.Card;
 
@@ -32,14 +26,6 @@ public class ModifyCashLimitCommand implements Command {
 	 * Objeto tarjeta cuyos limites se van a modificar
 	 */
 	private Card card;
-	/**
-	 * Cuenta a la que esta asociada la tarjeta que vamos a modificar
-	 */
-	private Account account;
-	/**
-	 * Identificador de la tarjeta que se va a modificar
-	 */
-	private Handler cardId;
 	/**
 	 * Nueva cantidad a modificar
 	 */
@@ -63,20 +49,15 @@ public class ModifyCashLimitCommand implements Command {
 	 * @param type
 	 * @throws AccountNotFoundException 
 	 */
-	public ModifyCashLimitCommand(Handler cardId, Office office, Handler dni, Handler accountHandler, double amount, String type) throws AccountNotFoundException {
+	public ModifyCashLimitCommand(Handler cardId, Card card, double amount, String type) throws AccountNotFoundException {
 		try {
 			this.id = new CommandHandler(cardId);
-			this.cardId = cardId;
-			this.account = office.searchClient((DNIHandler) dni).searchAccount((AccountHandler) accountHandler);
+			this.card = card;
 			this.newAmount = amount;
 			this.type = type;
-		} catch (ClientNotFoundException e) {
-			LOG.info("Client with dni " + dni.toString() + " is not found");
 		} catch (NullPointerException e) {
 			LOG.info(e.getMessage());
-		}/* catch (AccountNotFoundException e) {
-			LOG.info("Account with number " + accountHandler.toString() + " is not found");
-		}*/
+		}
 	}
 	
 	/**
@@ -85,9 +66,7 @@ public class ModifyCashLimitCommand implements Command {
 	 */
 	public void execute() throws CardNotFoundException {
 		//Buscamos la tarjeta con el identificador de la misma en la lista de tarjetas de la cuenta
-		try {
-			this.card = account.searchCard((CardHandler) cardId);
-			
+		try {			
 			//Si el limite a modificar es diario
 			if (type.equalsIgnoreCase("diary")) {
 					//Guardamos la cantidad anterior para poder deshacer la operacion
