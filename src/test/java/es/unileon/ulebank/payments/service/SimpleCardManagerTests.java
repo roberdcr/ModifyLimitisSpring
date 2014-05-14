@@ -11,7 +11,7 @@ import org.junit.Test;
 import es.unileon.ulebank.payments.domain.CreditCard;
 
 
-public class SimpleProductManagerTests {
+public class SimpleCardManagerTests {
 
     private SimpleCardManager productManager;
     

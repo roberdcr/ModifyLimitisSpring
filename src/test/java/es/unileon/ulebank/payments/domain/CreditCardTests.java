@@ -24,7 +24,7 @@ import es.unileon.ulebank.strategy.StrategyCommissionCreditMaintenance;
 import es.unileon.ulebank.strategy.StrategyCommissionCreditRenovate;
 import es.unileon.ulebank.transacionManager.TransactionManager;
 
-public class ProductTests {
+public class CreditCardTests {
 
     private CreditCard card;
 	private CardHandler handler;
