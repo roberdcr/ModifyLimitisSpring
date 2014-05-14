@@ -4,6 +4,7 @@ package es.unileon.ulebank.taskList;
 
 import es.unileon.ulebank.command.Command;
 import es.unileon.ulebank.exceptions.CardNotFoundException;
+import es.unileon.ulebank.exceptions.IncorrectLimitException;
 import es.unileon.ulebank.exceptions.PaymentException;
 import es.unileon.ulebank.exceptions.TransferException;
 import es.unileon.ulebank.fees.InvalidFeeException;
@@ -33,7 +34,7 @@ public class Task {
         return this.command.getId();
     }
 
-    public void execute() throws InvalidFeeException, PaymentException, TransactionException, es.unileon.ulebank.history.TransactionException, TransferException, CardNotFoundException {
+    public void execute() throws InvalidFeeException, PaymentException, TransactionException, es.unileon.ulebank.history.TransactionException, TransferException, CardNotFoundException, IncorrectLimitException {
         this.command.execute();
     }
 

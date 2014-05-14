@@ -64,7 +64,7 @@ public class ModifyBuyLimitCommand implements Command {
 	 * @throws CardNotFoundException 
 	 */
 	@Override
-	public void execute() throws CardNotFoundException {
+	public void execute() throws CardNotFoundException, IncorrectLimitException {
 		//Buscamos la tarjeta con el identificador de la misma en la lista de tarjetas de la cuenta
 		try {
 			//Si el limite a modificar es diario
@@ -87,6 +87,7 @@ public class ModifyBuyLimitCommand implements Command {
 			LOG.info(e.getMessage());
 		} catch (IncorrectLimitException e) {
 			LOG.info(e.getMessage());
+			throw new IncorrectLimitException("Diary limit must been lower tha monthly limit");
 		}
 	}
 

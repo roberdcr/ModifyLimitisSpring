@@ -3,6 +3,7 @@
 package es.unileon.ulebank.taskList;
 
 import es.unileon.ulebank.exceptions.CardNotFoundException;
+import es.unileon.ulebank.exceptions.IncorrectLimitException;
 import es.unileon.ulebank.exceptions.PaymentException;
 import es.unileon.ulebank.exceptions.TransferException;
 import es.unileon.ulebank.fees.InvalidFeeException;
@@ -120,9 +121,10 @@ public class TaskList {
      * @throws PaymentException 
      * @throws TransferException 
      * @throws CardNotFoundException 
+     * @throws IncorrectLimitException 
      *
      */
-    public void executeTasks() throws InvalidFeeException, PaymentException, TransactionException, TransferException, CardNotFoundException {
+    public void executeTasks() throws InvalidFeeException, PaymentException, TransactionException, TransferException, CardNotFoundException, IncorrectLimitException {
         int i = 0;
         while (this.tasks.get(i).getEffectiveDate().getTime() <= this.time.getTime()) {
             Task c = this.tasks.get(i);

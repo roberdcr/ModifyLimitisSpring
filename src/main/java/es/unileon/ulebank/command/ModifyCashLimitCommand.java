@@ -64,9 +64,10 @@ public class ModifyCashLimitCommand implements Command {
 	/**
 	 * Realiza la modificacion del limite de extraccion en cajero ya sea diario o mensual
 	 * @throws CardNotFoundException 
+	 * @throws IncorrectLimitException 
 	 */
 	@Override
-	public void execute() throws CardNotFoundException {
+	public void execute() throws CardNotFoundException, IncorrectLimitException {
 		//Buscamos la tarjeta con el identificador de la misma en la lista de tarjetas de la cuenta
 		try {			
 			//Si el limite a modificar es diario
@@ -87,11 +88,10 @@ public class ModifyCashLimitCommand implements Command {
 			}
 		} catch (NullPointerException e) {
 			LOG.info(e.getMessage());
-		} /*catch (CardNotFoundException e) {
-			LOG.info("Card with number " + cardId.toString() + " is not found");
-		}*/ catch (IncorrectLimitException e) {
+		} catch (IncorrectLimitException e) {
 			LOG.info(e.getMessage());
-		}		
+			throw new IncorrectLimitException("Diary limit must been lower tha monthly limit");
+		}	
 	}
 
 	/**

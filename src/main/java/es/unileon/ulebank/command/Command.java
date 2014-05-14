@@ -1,6 +1,7 @@
 package es.unileon.ulebank.command;
 
 import es.unileon.ulebank.exceptions.CardNotFoundException;
+import es.unileon.ulebank.exceptions.IncorrectLimitException;
 import es.unileon.ulebank.exceptions.PaymentException;
 import es.unileon.ulebank.exceptions.TransferException;
 import es.unileon.ulebank.handler.Handler;
@@ -16,8 +17,9 @@ public interface Command {
 	 * @throws TransactionException 
 	 * @throws PaymentException 
 	 * @throws CardNotFoundException 
+	 * @throws IncorrectLimitException 
 	 */
-	public void execute() throws PaymentException, TransactionException, CardNotFoundException;
+	public void execute() throws PaymentException, TransactionException, CardNotFoundException, IncorrectLimitException;
 	/**
 	 * Deshace los cambios realizados
 	 * @throws TransferException 

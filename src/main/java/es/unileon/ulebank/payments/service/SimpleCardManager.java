@@ -36,8 +36,8 @@ public class SimpleCardManager implements CardManager {
 			throws IncorrectLimitException, AccountNotFoundException, PaymentException, TransactionException, CardNotFoundException {
 		Command buyLimitsDiary = new ModifyBuyLimitCommand(this.card.getCardNumber(), this.card, diary, "diary");
 		Command buyLimitsMonthly = new ModifyBuyLimitCommand(this.card.getCardNumber(), this.card, monthly, "monthly");
-		buyLimitsDiary.execute();
 		buyLimitsMonthly.execute();
+		buyLimitsDiary.execute();
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class SimpleCardManager implements CardManager {
 			throws IncorrectLimitException, AccountNotFoundException, PaymentException, TransactionException, CardNotFoundException {
 		Command cashLimitsDiary = new ModifyCashLimitCommand(this.card.getCardNumber(), this.card, diary, "diary");
 		Command cashLimitsMonthly = new ModifyCashLimitCommand(this.card.getCardNumber(), this.card, monthly, "monthly");
-		cashLimitsDiary.execute();
 		cashLimitsMonthly.execute();
+		cashLimitsDiary.execute();
 	}
 
 	public void setCard(Card card) {

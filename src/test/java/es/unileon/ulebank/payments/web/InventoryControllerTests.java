@@ -17,7 +17,7 @@ public class InventoryControllerTests {
 		InventoryController controller = new InventoryController();
 		controller.setProductManager(new SimpleCardManager());
 		ModelAndView modelAndView = controller.handleRequest(null, null);		
-		assertEquals("hello", modelAndView.getViewName());
+		assertEquals("changeLimits", modelAndView.getViewName());
 		assertNotNull(modelAndView.getModel());
 		@SuppressWarnings("unchecked")
 		Map<String, Object> modelMap = (Map<String, Object>) modelAndView.getModel().get("model");
