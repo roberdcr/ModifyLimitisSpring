@@ -62,6 +62,7 @@ public class ModifyBuyLimitCommand implements Command {
 	 * Realiza la modificacion del limite de compra ya sea diario o mensual
 	 * @throws CardNotFoundException 
 	 */
+	@Override
 	public void execute() throws CardNotFoundException {
 		//Buscamos la tarjeta con el identificador de la misma en la lista de tarjetas de la cuenta
 		try {
@@ -91,6 +92,7 @@ public class ModifyBuyLimitCommand implements Command {
 	/**
 	 * Deshace la modificacion del limite de compra dejandolo como estaba
 	 */
+	@Override
 	public void undo() {
 		//Si el tipo es diario
 		if (type.equalsIgnoreCase("diary")) {
@@ -117,6 +119,7 @@ public class ModifyBuyLimitCommand implements Command {
 	/**
 	 * Rehace la modificacion del limite de compra despues de haberlo deshecho
 	 */
+	@Override
 	public void redo() {
 		//Si el tipo es diario
 		if (type.equalsIgnoreCase("diary")) {
@@ -143,6 +146,7 @@ public class ModifyBuyLimitCommand implements Command {
 	/**
 	 * Devuelve el identificador del comando
 	 */
+	@Override
 	public Handler getId() {
 		return this.id;
 	}

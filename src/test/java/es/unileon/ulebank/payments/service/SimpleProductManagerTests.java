@@ -50,7 +50,7 @@ public class SimpleProductManagerTests {
     @Test
     public void testGetProductsWithNoProducts() {
         productManager = new SimpleCardManager();
-        assertNull(productManager.getProducts());
+        assertNull(productManager.getCard());
     }
 
     @Test

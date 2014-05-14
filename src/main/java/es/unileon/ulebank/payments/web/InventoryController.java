@@ -55,7 +55,7 @@ public class InventoryController {
 
         Map<String, Object> myModel = new HashMap<String, Object>();
         myModel.put("now", now);
-        myModel.put("products", this.cardManager.getProducts());
+        myModel.put("products", this.cardManager.getCard());
 
         return new ModelAndView("changeLimits", "model", myModel);
     }

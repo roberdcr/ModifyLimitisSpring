@@ -10,16 +10,27 @@ import es.unileon.ulebank.exceptions.PaymentException;
 import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.payments.Card;
 
+/**
+ * Simple Card Manager Class
+ * @author Rober dCR
+ * @date 14/05/2014
+ * @brief Class which manages the card
+ */
 public class SimpleCardManager implements CardManager {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Card which modifies from changeLimits.jsp
+	 */
 	private Card card;
 
-	public Card getProducts() {
+	@Override
+	public Card getCard() {
 		return card; 
 	}
 
+	@Override
 	public void changeBuyLimits(double diary, double monthly)
 			throws IncorrectLimitException, AccountNotFoundException, PaymentException, TransactionException, CardNotFoundException {
 		Command buyLimitsDiary = new ModifyBuyLimitCommand(this.card.getCardNumber(), this.card, diary, "diary");
@@ -28,6 +39,7 @@ public class SimpleCardManager implements CardManager {
 		buyLimitsMonthly.execute();
 	}
 
+	@Override
 	public void changeCashLimits(double diary, double monthly)
 			throws IncorrectLimitException, AccountNotFoundException, PaymentException, TransactionException, CardNotFoundException {
 		Command cashLimitsDiary = new ModifyCashLimitCommand(this.card.getCardNumber(), this.card, diary, "diary");
@@ -36,7 +48,7 @@ public class SimpleCardManager implements CardManager {
 		cashLimitsMonthly.execute();
 	}
 
-	public void setProducts(Card card) {
+	public void setCard(Card card) {
 		this.card = card;
 	}
 

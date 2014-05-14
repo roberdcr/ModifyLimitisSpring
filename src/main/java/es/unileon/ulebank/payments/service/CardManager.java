@@ -17,9 +17,34 @@ import es.unileon.ulebank.payments.Card;
  */
 public interface CardManager extends Serializable {
 
+	/**
+	 * Method that changes the buy limits using the command with the limits from buyLimits.jsp
+	 * @param diary
+	 * @param monthly
+	 * @throws IncorrectLimitException
+	 * @throws AccountNotFoundException
+	 * @throws PaymentException
+	 * @throws TransactionException
+	 * @throws CardNotFoundException
+	 */
     public void changeBuyLimits(double diary, double monthly) throws IncorrectLimitException, AccountNotFoundException, PaymentException, TransactionException, CardNotFoundException;
+    
+    /**
+     * Method that changes the cash limits using the command with the limits from cashLimits.jsp
+     * @param diary
+     * @param monthly
+     * @throws IncorrectLimitException
+     * @throws AccountNotFoundException
+     * @throws PaymentException
+     * @throws TransactionException
+     * @throws CardNotFoundException
+     */
     public void changeCashLimits(double diary, double monthly) throws IncorrectLimitException, AccountNotFoundException, PaymentException, TransactionException, CardNotFoundException;
     
-    public Card getProducts();
+    /**
+     * Method that returns the card of the management
+     * @return
+     */
+    public Card getCard();
 
 }
