@@ -15,7 +15,7 @@ import es.unileon.ulebank.payments.Card;
  * Simple Card Manager Class
  * @author Rober dCR
  * @date 14/05/2014
- * @brief Class which manages the card
+ * @brief Simple Class which manages the card for change buy and cash limits
  */
 public class SimpleCardManager implements CardManager {
 

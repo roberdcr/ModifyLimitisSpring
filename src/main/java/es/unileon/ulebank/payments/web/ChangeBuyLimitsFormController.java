@@ -60,7 +60,8 @@ public class ChangeBuyLimitsFormController {
 		
         int diaryLimit = (int) changeLimit.getDiaryLimit();
         int monthlyLimit = (int) changeLimit.getMonthlyLimit();
-        logger.info("Increasing prices by " + monthlyLimit + "%.");
+        logger.info("Modified diary limit: " + diaryLimit + "€.");
+        logger.info("Modified monthly limit: " + monthlyLimit + "€.");
 
         productManager.changeBuyLimits(diaryLimit, monthlyLimit);
 
@@ -76,8 +77,8 @@ public class ChangeBuyLimitsFormController {
     @RequestMapping(method = RequestMethod.GET)
     protected ChangeLimit formBackingObject(HttpServletRequest request) throws ServletException {
         ChangeLimit changeLimit = new ChangeLimit();
-        changeLimit.setDiaryLimit((int) this.productManager.getCard().getBuyLimitDiary()); //this.productManager.getBuyLimitDiary()
-        changeLimit.setMonthlyLimit((int) this.productManager.getCard().getBuyLimitMonthly()); //this.productManager.getBuyLimitMonthly()
+        changeLimit.setDiaryLimit((int) this.productManager.getCard().getBuyLimitDiary());
+        changeLimit.setMonthlyLimit((int) this.productManager.getCard().getBuyLimitMonthly());
         return changeLimit;
     }
 
