@@ -48,9 +48,14 @@ CREATE TABLE client (
 
 CREATE TABLE transaction (
 	id VarChar(30) PRIMARY KEY,
-	card_id VarChar(19) REFERENCES cards (id),
 	amount DOUBLE,
 	transaction_Date DATE,
 	effective_Date DATE,
 	concept VarChar(80)
+);
+
+CREATE TABLE transactionHistory (
+	transaction_id VarChar(30) REFERENCES transaction (id),
+	card_id VarChar(19) REFERENCES cards (id),
+	CONSTRAINT pk_transacyion_history PRIMARY KEY (transaction_id, card_id)
 );
