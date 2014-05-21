@@ -3,6 +3,7 @@ package es.unileon.ulebank.payments;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,11 +23,24 @@ import es.unileon.ulebank.history.History;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionException;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * @author Israel
  */
-public abstract class Card {
+@Entity
+@Table(name="cards") 
+public abstract class Card implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
      * El logger de la clase
      */
@@ -100,6 +114,8 @@ public abstract class Card {
 	/**
 	 * Identificador de la tarjeta
 	 */
+	@Id
+    @Column(name = "id")
 	private Handler cardId;
 	/**
 	 * Codigo PIN de la tarjeta

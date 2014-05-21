@@ -18,6 +18,13 @@ import es.unileon.ulebank.taskList.TaskList;
 import es.unileon.ulebank.history.CardTransaction;
 import es.unileon.ulebank.history.TransactionException;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * @author Israel, Rober dCR
  * Clase que representa la tarjeta de credito
