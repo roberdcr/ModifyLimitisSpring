@@ -46,8 +46,9 @@ CREATE TABLE client (
   surname VarChar(30)
 );
 
-CREATE TABLE transactionHistory (
+CREATE TABLE transaction (
 	id VarChar(30) PRIMARY KEY,
+	card_id VarChar(19) REFERENCES cards (id),
 	amount DOUBLE,
 	transaction_Date DATE,
 	effective_Date DATE,
