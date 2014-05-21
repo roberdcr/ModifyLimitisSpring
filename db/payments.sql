@@ -6,14 +6,18 @@ GRANT ALL ON payments.* TO springappuser@localhost IDENTIFIED BY 'pspringappuser
 USE payments;
 
 CREATE TABLE cards (
-  id VarChar(16) PRIMARY KEY,
+  id VarChar(19) PRIMARY KEY,
   client_id VarChar(9) REFERENCES client(client_id),
   account_id  VarChar(20) REFERENCES accounts(pk_account),
-  type VarChar(9),
+  pin VarChar(4),
   buyLimitDiary DOUBLE,
   buyLimitMonthly DOUBLE,
   cashLimitDiary DOUBLE,
   cashLimitMonthly DOUBLE,
+  emissionDate VarChar(10),
+  expirationDate VarChar(5),
+  type VarChar(9),
+  cvv VarChar(3),
   commissionEmission DOUBLE,
   commissionMaintenance DOUBLE,
   comissionRenovate DOUBLE
@@ -42,3 +46,10 @@ CREATE TABLE client (
   surname VarChar(30)
 );
 
+CREATE TABLE transactionHistory (
+	id VarChar(30) PRIMARY KEY,
+	amount DOUBLE,
+	transaction_Date DATE,
+	effective_Date DATE,
+	concept VarChar(80)
+);
